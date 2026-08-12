@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Copiar productos</title>
+  <title>Copiar datos del producto</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -21,62 +21,77 @@
     }
 
     .container {
-      max-width: 600px;
+      max-width: 550px;
       margin: 30px auto;
       background: white;
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 25px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.10);
     }
 
     h1 {
-      margin-top: 0;
+      text-align: center;
       font-size: 24px;
-      text-align: center;
+      margin-top: 0;
+      margin-bottom: 25px;
     }
 
-    .status {
-      text-align: center;
-      margin: 15px 0;
-      padding: 12px;
-      border-radius: 10px;
-      background: #f1f3f5;
-      color: #555;
+    .campo {
+      margin-bottom: 20px;
+      padding: 18px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 1px solid #e2e5e8;
     }
 
-    textarea {
-      width: 100%;
-      min-height: 250px;
-      resize: vertical;
-      padding: 15px;
-      font-size: 16px;
-      line-height: 1.5;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 15px;
+    .titulo {
+      font-size: 15px;
+      font-weight: bold;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .valor {
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 14px;
+      word-wrap: break-word;
     }
 
     button {
       width: 100%;
-      padding: 16px;
+      padding: 14px;
       border: none;
-      border-radius: 10px;
+      border-radius: 9px;
       background: #1976d2;
       color: white;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-    }
-
-    button:active {
-      transform: scale(0.98);
     }
 
     button:hover {
       background: #1565c0;
     }
 
-    .success {
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button.copiado {
+      background: #2e7d32;
+    }
+
+    .estado-general {
+      text-align: center;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background: #f1f3f5;
+      color: #555;
+    }
+
+    .exito {
       background: #dff6e5;
       color: #137333;
     }
@@ -86,170 +101,349 @@
       color: #b3261e;
     }
 
-    .info {
-      margin-top: 15px;
+    .total {
       text-align: center;
-      color: #666;
-      font-size: 13px;
+      margin-top: 10px;
+      padding: 15px;
+      background: #fff8e1;
+      border-radius: 10px;
+      font-size: 16px;
     }
+
   </style>
 
 </head>
+
 
 <body>
 
   <div class="container">
 
-```
-<h1>📋 Copiar productos</h1>
+    <h1>📋 Copiar datos del producto</h1>
 
-<div id="status" class="status">
-  Preparando productos...
-</div>
+    <div id="estadoGeneral" class="estado-general">
+      Selecciona qué dato quieres copiar.
+    </div>
 
-<textarea id="productos" readonly></textarea>
 
-<button id="copiarBtn" onclick="copiarProductos()">
-  📋 COPIAR PRODUCTOS
-</button>
+    <!-- =====================================================
+         DESCRIPCIÓN
+         ===================================================== -->
 
-<div class="info">
-  Después de copiar, puedes volver a AppSheet y pegar el contenido donde lo necesites.
-</div>
-```
+    <div class="campo">
+
+      <div class="titulo">
+        📦 DESCRIPCIÓN
+      </div>
+
+      <div class="valor" id="descripcion">
+        -
+      </div>
+
+      <button
+        id="btnDescripcion"
+        onclick="copiarDato('descripcion', 'btnDescripcion', 'Descripción')">
+
+        📋 COPIAR DESCRIPCIÓN
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         CANTIDAD
+         ===================================================== -->
+
+    <div class="campo">
+
+      <div class="titulo">
+        🔢 CANTIDAD
+      </div>
+
+      <div class="valor" id="cantidad">
+        -
+      </div>
+
+      <button
+        id="btnCantidad"
+        onclick="copiarDato('cantidad', 'btnCantidad', 'Cantidad')">
+
+        📋 COPIAR CANTIDAD
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         PRECIO UNITARIO
+         ===================================================== -->
+
+    <div class="campo">
+
+      <div class="titulo">
+        💰 PRECIO UNITARIO
+      </div>
+
+      <div class="valor" id="precio">
+        -
+      </div>
+
+      <button
+        id="btnPrecio"
+        onclick="copiarDato('precio', 'btnPrecio', 'Precio unitario')">
+
+        📋 COPIAR PRECIO
+
+      </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         SUBTOTAL
+         ===================================================== -->
+
+    <div class="total">
+
+      Total de la línea:
+      <strong id="subtotal">S/ 0.00</strong>
+
+    </div>
 
   </div>
 
+
   <script>
 
-    // ---------------------------------------------------------
-    // Obtener el parámetro "texto" enviado desde AppSheet
-    // ---------------------------------------------------------
+    // =========================================================
+    // RECIBIR INFORMACIÓN DESDE APPSHEET
+    // =========================================================
 
-    const parametros = new URLSearchParams(window.location.search);
-
-    const texto = parametros.get("texto") || "";
-
-    const textarea = document.getElementById("productos");
-    const status = document.getElementById("status");
+    const parametros =
+      new URLSearchParams(window.location.search);
 
 
-    // ---------------------------------------------------------
-    // Mostrar productos
-    // ---------------------------------------------------------
+    const descripcion =
+      parametros.get("descripcion") || "";
 
-    if (texto.trim() !== "") {
+    const cantidad =
+      parametros.get("cantidad") || "";
 
-      textarea.value = texto;
+    const precio =
+      parametros.get("precio") || "";
 
-      status.textContent =
-        "Se encontraron los productos. Pulsa COPIAR PRODUCTOS.";
-
-    } else {
-
-      status.textContent =
-        "No se recibieron productos.";
-
-    }
+    const subtotal =
+      parametros.get("subtotal") || "";
 
 
-    // ---------------------------------------------------------
-    // Copiar al portapapeles
-    // ---------------------------------------------------------
+    // =========================================================
+    // MOSTRAR INFORMACIÓN
+    // =========================================================
 
-    async function copiarProductos() {
+    document.getElementById("descripcion").textContent =
+      descripcion || "Sin descripción";
 
-      const contenido = textarea.value;
+    document.getElementById("cantidad").textContent =
+      cantidad || "Sin cantidad";
 
-      if (!contenido.trim()) {
+    document.getElementById("precio").textContent =
+      precio ? "S/ " + precio : "Sin precio";
 
-        status.textContent = "No hay productos para copiar.";
-        status.className = "status error";
+    document.getElementById("subtotal").textContent =
+      subtotal ? "S/ " + subtotal : "S/ 0.00";
 
-        return;
+
+    // =========================================================
+    // COPIAR UN DATO
+    // =========================================================
+
+    async function copiarDato(
+      elemento,
+      botonId,
+      nombreDato
+    ) {
+
+      let contenido = "";
+
+
+      // -------------------------------------------------------
+      // Determinar qué dato copiar
+      // -------------------------------------------------------
+
+      if (elemento === "descripcion") {
+
+        contenido = descripcion;
+
+      }
+
+      else if (elemento === "cantidad") {
+
+        contenido = cantidad;
+
+      }
+
+      else if (elemento === "precio") {
+
+        contenido = precio;
+
       }
 
 
+      // -------------------------------------------------------
+      // Comprobar que exista
+      // -------------------------------------------------------
+
+      if (!contenido.trim()) {
+
+        mostrarError(
+          nombreDato + " no disponible."
+        );
+
+        return;
+
+      }
+
+
+      // -------------------------------------------------------
+      // Intentar copiar
+      // -------------------------------------------------------
+
       try {
 
-        // Método moderno
         await navigator.clipboard.writeText(contenido);
 
-        mostrarExito();
+        mostrarCopiado(
+          botonId,
+          nombreDato
+        );
 
-      } catch (error) {
+        return;
 
-        // Método alternativo para navegadores que no
-        // permiten Clipboard API
-        try {
+      }
 
-          textarea.removeAttribute("readonly");
-          textarea.select();
-          textarea.setSelectionRange(0, 999999);
+      catch (error) {
 
-          const resultado = document.execCommand("copy");
+        console.log(
+          "Clipboard API bloqueada:",
+          error
+        );
 
-          textarea.setAttribute("readonly", true);
+      }
 
-          if (resultado) {
 
-            mostrarExito();
+      // -------------------------------------------------------
+      // Método alternativo
+      // -------------------------------------------------------
 
-          } else {
+      try {
 
-            mostrarError();
+        const textarea =
+          document.createElement("textarea");
 
-          }
+        textarea.value = contenido;
 
-        } catch (errorAlternativo) {
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
 
-          mostrarError();
+        document.body.appendChild(textarea);
+
+        textarea.focus();
+
+        textarea.select();
+
+        textarea.setSelectionRange(
+          0,
+          textarea.value.length
+        );
+
+        const resultado =
+          document.execCommand("copy");
+
+        document.body.removeChild(textarea);
+
+
+        if (resultado) {
+
+          mostrarCopiado(
+            botonId,
+            nombreDato
+          );
+
+        }
+
+        else {
+
+          mostrarError(
+            "No se pudo copiar " + nombreDato
+          );
 
         }
 
       }
 
-    }
+      catch (error) {
 
+        mostrarError(
+          "No se pudo copiar " + nombreDato
+        );
 
-    // ---------------------------------------------------------
-    // Mensaje de éxito
-    // ---------------------------------------------------------
-
-    function mostrarExito() {
-
-      status.textContent =
-        "✅ ¡Productos copiados al portapapeles!";
-
-      status.className = "status success";
-
-      const boton = document.getElementById("copiarBtn");
-
-      boton.textContent = "✅ COPIADO";
-
-      setTimeout(function() {
-
-        boton.textContent = "📋 COPIAR PRODUCTOS";
-
-      }, 2500);
+      }
 
     }
 
 
-    // ---------------------------------------------------------
-    // Mensaje de error
-    // ---------------------------------------------------------
+    // =========================================================
+    // MOSTRAR QUE SE COPIÓ
+    // =========================================================
 
-    function mostrarError() {
+    function mostrarCopiado(
+      botonId,
+      nombreDato
+    ) {
 
-      status.textContent =
-        "No se pudo copiar automáticamente. Selecciona el texto y copia manualmente.";
+      const boton =
+        document.getElementById(botonId);
 
-      status.className = "status error";
+      const estado =
+        document.getElementById("estadoGeneral");
+
+
+      boton.textContent =
+        "✅ COPIADO";
+
+      boton.classList.add("copiado");
+
+
+      estado.textContent =
+        "✅ " + nombreDato + " copiado correctamente.";
+
+      estado.className =
+        "estado-general exito";
+
+    }
+
+
+    // =========================================================
+    // MOSTRAR ERROR
+    // =========================================================
+
+    function mostrarError(mensaje) {
+
+      const estado =
+        document.getElementById("estadoGeneral");
+
+      estado.textContent =
+        "❌ " + mensaje;
+
+      estado.className =
+        "estado-general error";
 
     }
 
   </script>
 
 </body>
+
 </html>
