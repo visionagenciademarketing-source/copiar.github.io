@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Copiar datos del producto</title>
+
 
   <style>
 
@@ -12,103 +19,188 @@
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
+
       padding: 20px;
-      font-family: Arial, sans-serif;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
       background: #f4f6f8;
+
       color: #222;
+
     }
+
 
     .container {
+
       max-width: 550px;
-      margin: 30px auto;
+
+      margin: 25px auto;
+
       background: white;
+
       border-radius: 18px;
+
       padding: 25px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+
+      box-shadow:
+        0 4px 20px
+        rgba(0,0,0,0.10);
+
     }
+
 
     h1 {
+
       text-align: center;
-      font-size: 24px;
+
+      font-size: 23px;
+
       margin-top: 0;
+
       margin-bottom: 25px;
+
     }
 
-    .campo {
-      margin-bottom: 20px;
-      padding: 18px;
-      background: #f8f9fa;
-      border-radius: 12px;
-      border: 1px solid #e2e5e8;
-    }
-
-    .titulo {
-      font-size: 15px;
-      font-weight: bold;
-      color: #666;
-      margin-bottom: 8px;
-    }
-
-    .valor {
-      font-size: 19px;
-      font-weight: bold;
-      margin-bottom: 14px;
-      word-wrap: break-word;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 9px;
-      background: #1976d2;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #1565c0;
-    }
-
-    button:active {
-      transform: scale(0.98);
-    }
-
-    button.copiado {
-      background: #2e7d32;
-    }
 
     .estado-general {
+
       text-align: center;
+
       padding: 12px;
+
       margin-bottom: 20px;
+
       border-radius: 10px;
+
       background: #f1f3f5;
+
       color: #555;
+
+      font-size: 15px;
+
     }
 
-    .exito {
-      background: #dff6e5;
-      color: #137333;
+
+    .campo {
+
+      margin-bottom: 18px;
+
+      padding: 18px;
+
+      background: #f8f9fa;
+
+      border-radius: 12px;
+
+      border: 1px solid #e1e4e8;
+
     }
 
-    .error {
-      background: #fde7e9;
-      color: #b3261e;
+
+    .titulo {
+
+      font-size: 14px;
+
+      font-weight: bold;
+
+      color: #666;
+
+      margin-bottom: 8px;
+
     }
+
+
+    .valor {
+
+      font-size: 19px;
+
+      font-weight: bold;
+
+      margin-bottom: 14px;
+
+      word-wrap: break-word;
+
+    }
+
+
+    button {
+
+      width: 100%;
+
+      padding: 14px;
+
+      border: none;
+
+      border-radius: 9px;
+
+      background: #1976d2;
+
+      color: white;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+    }
+
+
+    button:active {
+
+      transform: scale(0.98);
+
+    }
+
+
+    button.copiado {
+
+      background: #2e7d32;
+
+      cursor: default;
+
+    }
+
+
+    button.error {
+
+      background: #c62828;
+
+    }
+
 
     .total {
+
       text-align: center;
-      margin-top: 10px;
+
+      margin-top: 5px;
+
       padding: 15px;
+
       background: #fff8e1;
+
       border-radius: 10px;
+
       font-size: 16px;
+
     }
+
+
+    .volver {
+
+      margin-top: 20px;
+
+      background: #555;
+
+    }
+
 
   </style>
 
@@ -117,13 +209,22 @@
 
 <body>
 
+
   <div class="container">
 
-    <h1>📋 Copiar datos del producto</h1>
 
-    <div id="estadoGeneral" class="estado-general">
-      Selecciona qué dato quieres copiar.
+    <h1>
+      📋 Copiar datos del producto
+    </h1>
+
+
+    <div
+      id="estadoGeneral"
+      class="estado-general"
+    >
+      Selecciona el dato que quieres copiar.
     </div>
+
 
 
     <!-- =====================================================
@@ -136,19 +237,26 @@
         📦 DESCRIPCIÓN
       </div>
 
-      <div class="valor" id="descripcion">
+      <div
+        class="valor"
+        id="descripcion"
+      >
         -
       </div>
 
       <button
         id="btnDescripcion"
-        onclick="copiarDato('descripcion', 'btnDescripcion', 'Descripción')">
-
+        onclick="copiarDato(
+          'descripcion',
+          'btnDescripcion',
+          'Descripción'
+        )"
+      >
         📋 COPIAR DESCRIPCIÓN
-
       </button>
 
     </div>
+
 
 
     <!-- =====================================================
@@ -161,23 +269,30 @@
         🔢 CANTIDAD
       </div>
 
-      <div class="valor" id="cantidad">
+      <div
+        class="valor"
+        id="cantidad"
+      >
         -
       </div>
 
       <button
         id="btnCantidad"
-        onclick="copiarDato('cantidad', 'btnCantidad', 'Cantidad')">
-
+        onclick="copiarDato(
+          'cantidad',
+          'btnCantidad',
+          'Cantidad'
+        )"
+      >
         📋 COPIAR CANTIDAD
-
       </button>
 
     </div>
 
 
+
     <!-- =====================================================
-         PRECIO UNITARIO
+         PRECIO
          ===================================================== -->
 
     <div class="campo">
@@ -186,19 +301,26 @@
         💰 PRECIO UNITARIO
       </div>
 
-      <div class="valor" id="precio">
+      <div
+        class="valor"
+        id="precio"
+      >
         -
       </div>
 
       <button
         id="btnPrecio"
-        onclick="copiarDato('precio', 'btnPrecio', 'Precio unitario')">
-
+        onclick="copiarDato(
+          'precio',
+          'btnPrecio',
+          'Precio unitario'
+        )"
+      >
         📋 COPIAR PRECIO
-
       </button>
 
     </div>
+
 
 
     <!-- =====================================================
@@ -208,97 +330,164 @@
     <div class="total">
 
       Total de la línea:
-      <strong id="subtotal">S/ 0.00</strong>
+
+      <strong id="subtotal">
+        S/ 0.00
+      </strong>
 
     </div>
+
 
   </div>
 
 
+
   <script>
 
+
     // =========================================================
-    // RECIBIR INFORMACIÓN DESDE APPSHEET
+    // RECIBIR DATOS DE APPSHEET
     // =========================================================
 
     const parametros =
-      new URLSearchParams(window.location.search);
+      new URLSearchParams(
+        window.location.search
+      );
 
 
     const descripcion =
       parametros.get("descripcion") || "";
 
+
     const cantidad =
       parametros.get("cantidad") || "";
 
+
     const precio =
       parametros.get("precio") || "";
+
 
     const subtotal =
       parametros.get("subtotal") || "";
 
 
+
     // =========================================================
-    // MOSTRAR INFORMACIÓN
+    // MOSTRAR DATOS
     // =========================================================
 
-    document.getElementById("descripcion").textContent =
+    document
+      .getElementById("descripcion")
+      .textContent =
       descripcion || "Sin descripción";
 
-    document.getElementById("cantidad").textContent =
+
+    document
+      .getElementById("cantidad")
+      .textContent =
       cantidad || "Sin cantidad";
 
-    document.getElementById("precio").textContent =
-      precio ? "S/ " + precio : "Sin precio";
 
-    document.getElementById("subtotal").textContent =
-      subtotal ? "S/ " + subtotal : "S/ 0.00";
+    document
+      .getElementById("precio")
+      .textContent =
+      precio
+        ? "S/ " + formatearPrecio(precio)
+        : "Sin precio";
+
+
+    document
+      .getElementById("subtotal")
+      .textContent =
+      subtotal
+        ? "S/ " + formatearPrecio(subtotal)
+        : "S/ 0.00";
+
 
 
     // =========================================================
-    // COPIAR UN DATO
+    // FORMATO DE PRECIO
+    // =========================================================
+
+    function formatearPrecio(valor) {
+
+      const numero =
+        Number(
+          String(valor)
+            .replace(",", ".")
+        );
+
+
+      if (isNaN(numero)) {
+
+        return valor;
+
+      }
+
+
+      return numero.toFixed(2);
+
+    }
+
+
+
+    // =========================================================
+    // COPIAR DATO
     // =========================================================
 
     async function copiarDato(
-      elemento,
+      tipo,
       botonId,
       nombreDato
     ) {
+
 
       let contenido = "";
 
 
       // -------------------------------------------------------
-      // Determinar qué dato copiar
+      // DESCRIPCIÓN
       // -------------------------------------------------------
 
-      if (elemento === "descripcion") {
+      if (tipo === "descripcion") {
 
         contenido = descripcion;
 
       }
 
-      else if (elemento === "cantidad") {
+
+      // -------------------------------------------------------
+      // CANTIDAD
+      // -------------------------------------------------------
+
+      if (tipo === "cantidad") {
 
         contenido = cantidad;
 
       }
 
-      else if (elemento === "precio") {
 
-        contenido = precio;
+      // -------------------------------------------------------
+      // PRECIO
+      // -------------------------------------------------------
+
+      if (tipo === "precio") {
+
+        contenido =
+          formatearPrecio(precio);
 
       }
 
 
+
       // -------------------------------------------------------
-      // Comprobar que exista
+      // VALIDAR
       // -------------------------------------------------------
 
       if (!contenido.trim()) {
 
         mostrarError(
-          nombreDato + " no disponible."
+          "No hay información para copiar."
         );
 
         return;
@@ -306,143 +495,241 @@
       }
 
 
+
+      const boton =
+        document.getElementById(
+          botonId
+        );
+
+
       // -------------------------------------------------------
-      // Intentar copiar
+      // EVITAR SEGUNDA COPIA
       // -------------------------------------------------------
+
+      if (
+        boton.classList.contains(
+          "copiado"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+
+      // =======================================================
+      // MÉTODO PRINCIPAL
+      // =======================================================
 
       try {
 
-        await navigator.clipboard.writeText(contenido);
 
-        mostrarCopiado(
-          botonId,
+        await navigator.clipboard.writeText(
+          contenido
+        );
+
+
+        // -----------------------------------------------------
+        // Confirmación real del navegador
+        // -----------------------------------------------------
+
+        // Si writeText() no genera error,
+        // consideramos que la copia fue realizada.
+
+
+        marcarComoCopiado(
+          boton,
           nombreDato
         );
 
+
         return;
+
 
       }
 
       catch (error) {
 
         console.log(
-          "Clipboard API bloqueada:",
+          "Clipboard API:",
           error
         );
 
       }
 
 
-      // -------------------------------------------------------
-      // Método alternativo
-      // -------------------------------------------------------
+
+      // =======================================================
+      // MÉTODO ALTERNATIVO
+      // =======================================================
 
       try {
 
+
         const textarea =
-          document.createElement("textarea");
+          document.createElement(
+            "textarea"
+          );
 
-        textarea.value = contenido;
 
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
+        textarea.value =
+          contenido;
 
-        document.body.appendChild(textarea);
+
+        textarea.style.position =
+          "fixed";
+
+        textarea.style.left =
+          "-9999px";
+
+
+        document
+          .body
+          .appendChild(
+            textarea
+          );
+
 
         textarea.focus();
 
         textarea.select();
 
-        textarea.setSelectionRange(
-          0,
-          textarea.value.length
-        );
 
         const resultado =
-          document.execCommand("copy");
+          document.execCommand(
+            "copy"
+          );
 
-        document.body.removeChild(textarea);
+
+        document
+          .body
+          .removeChild(
+            textarea
+          );
 
 
         if (resultado) {
 
-          mostrarCopiado(
-            botonId,
+
+          marcarComoCopiado(
+            boton,
             nombreDato
           );
+
 
         }
 
         else {
 
+
           mostrarError(
-            "No se pudo copiar " + nombreDato
+            "El navegador no permitió copiar " +
+            nombreDato +
+            "."
           );
 
+
         }
+
 
       }
 
       catch (error) {
 
+
         mostrarError(
-          "No se pudo copiar " + nombreDato
+          "No se pudo copiar " +
+          nombreDato +
+          "."
         );
+
 
       }
 
     }
 
 
+
     // =========================================================
-    // MOSTRAR QUE SE COPIÓ
+    // MARCAR COMO COPIADO
     // =========================================================
 
-    function mostrarCopiado(
-      botonId,
+    function marcarComoCopiado(
+      boton,
       nombreDato
     ) {
-
-      const boton =
-        document.getElementById(botonId);
-
-      const estado =
-        document.getElementById("estadoGeneral");
 
 
       boton.textContent =
         "✅ COPIADO";
 
-      boton.classList.add("copiado");
+
+      boton.classList.add(
+        "copiado"
+      );
+
+
+      boton.disabled =
+        true;
+
+
+      const estado =
+        document.getElementById(
+          "estadoGeneral"
+        );
 
 
       estado.textContent =
-        "✅ " + nombreDato + " copiado correctamente.";
+        "✅ " +
+        nombreDato +
+        " copiado correctamente.";
 
-      estado.className =
-        "estado-general exito";
+
+      estado.style.background =
+        "#dff6e5";
+
+
+      estado.style.color =
+        "#137333";
+
 
     }
 
 
+
     // =========================================================
-    // MOSTRAR ERROR
+    // ERROR
     // =========================================================
 
-    function mostrarError(mensaje) {
+    function mostrarError(
+      mensaje
+    ) {
+
 
       const estado =
-        document.getElementById("estadoGeneral");
+        document.getElementById(
+          "estadoGeneral"
+        );
+
 
       estado.textContent =
         "❌ " + mensaje;
 
-      estado.className =
-        "estado-general error";
+
+      estado.style.background =
+        "#fde7e9";
+
+
+      estado.style.color =
+        "#b3261e";
+
 
     }
 
+
   </script>
+
 
 </body>
 
