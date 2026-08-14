@@ -291,6 +291,38 @@
 
 
 
+
+    <!-- =====================================================
+         UNIDAD DE MEDIDA
+         ===================================================== -->
+
+    <div class="campo">
+
+      <div class="titulo">
+        📏 UNIDAD DE MEDIDA
+      </div>
+
+      <div
+        class="valor"
+        id="unidad"
+      >
+        -
+      </div>
+
+      <button
+        id="btnUnidad"
+        onclick="copiarDato(
+          'unidad',
+          'btnUnidad',
+          'Unidad de medida'
+        )"
+      >
+        📋 COPIAR UNIDAD
+      </button>
+
+    </div>
+
+
     <!-- =====================================================
          PRECIO
          ===================================================== -->
@@ -367,6 +399,10 @@
       parametros.get("precio") || "";
 
 
+    const unidad =
+      parametros.get("unidad") || "";
+
+
     const subtotal =
       parametros.get("subtotal") || "";
 
@@ -386,6 +422,27 @@
       .getElementById("cantidad")
       .textContent =
       cantidad || "Sin cantidad";
+
+
+
+    document
+      .getElementById("unidad")
+      .textContent =
+      unidad || "Sin unidad";
+
+
+    const btnUnidad =
+      document.getElementById("btnUnidad");
+
+
+    if (unidad.trim().toUpperCase() === "UNIDAD") {
+
+      btnUnidad.disabled = true;
+      btnUnidad.textContent = "🚫 NO APLICA";
+      btnUnidad.style.background = "#9e9e9e";
+      btnUnidad.style.cursor = "not-allowed";
+
+    }
 
 
     document
@@ -446,6 +503,18 @@
 
 
       // -------------------------------------------------------
+      // BLOQUEAR COPIA DE "UNIDAD"
+      // -------------------------------------------------------
+
+      if (
+        tipo === "unidad" &&
+        unidad.trim().toUpperCase() === "UNIDAD"
+      ) {
+        return;
+      }
+
+
+      // -------------------------------------------------------
       // DESCRIPCIÓN
       // -------------------------------------------------------
 
@@ -463,6 +532,21 @@
       if (tipo === "cantidad") {
 
         contenido = cantidad;
+
+      }
+
+
+      // -------------------------------------------------------
+      // UNIDAD
+      // -------------------------------------------------------
+
+      if (tipo === "unidad") {
+
+        if (unidad.trim().toUpperCase() === "UNIDAD") {
+          return;
+        }
+
+        contenido = unidad;
 
       }
 
