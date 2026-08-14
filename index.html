@@ -13,119 +13,190 @@
 
   <title>Copiar datos del producto</title>
 
+
   <style>
 
     * {
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
+
       padding: 20px;
+
       font-family:
         Arial,
         Helvetica,
         sans-serif;
+
       background: #f4f6f8;
+
       color: #222;
+
     }
 
+
     .container {
+
       max-width: 550px;
+
       margin: 25px auto;
+
       background: white;
+
       border-radius: 18px;
+
       padding: 25px;
+
       box-shadow:
         0 4px 20px
         rgba(0,0,0,0.10);
+
     }
+
 
     h1 {
+
       text-align: center;
+
       font-size: 23px;
+
       margin-top: 0;
+
       margin-bottom: 25px;
+
     }
+
 
     .estado-general {
+
       text-align: center;
+
       padding: 12px;
+
       margin-bottom: 20px;
+
       border-radius: 10px;
+
       background: #f1f3f5;
+
       color: #555;
+
       font-size: 15px;
+
     }
+
 
     .campo {
+
       margin-bottom: 18px;
+
       padding: 18px;
+
       background: #f8f9fa;
+
       border-radius: 12px;
+
       border: 1px solid #e1e4e8;
+
     }
+
 
     .titulo {
+
       font-size: 14px;
+
       font-weight: bold;
+
       color: #666;
+
       margin-bottom: 8px;
+
     }
+
 
     .valor {
+
       font-size: 19px;
+
       font-weight: bold;
+
       margin-bottom: 14px;
+
       word-wrap: break-word;
+
     }
+
 
     button {
+
       width: 100%;
+
       padding: 14px;
+
       border: none;
+
       border-radius: 9px;
+
       background: #1976d2;
+
       color: white;
+
       font-size: 16px;
+
       font-weight: bold;
+
       cursor: pointer;
+
     }
+
 
     button:active {
+
       transform: scale(0.98);
+
     }
+
 
     button.copiado {
+
       background: #2e7d32;
+
       cursor: default;
+
     }
 
-    button.error {
-      background: #c62828;
-    }
 
     .total {
-      text-align: center;
-      margin-top: 5px;
-      padding: 15px;
-      background: #fff8e1;
-      border-radius: 10px;
-      font-size: 16px;
-    }
 
-    .volver {
-      margin-top: 20px;
-      background: #555;
+      text-align: center;
+
+      margin-top: 5px;
+
+      padding: 15px;
+
+      background: #fff8e1;
+
+      border-radius: 10px;
+
+      font-size: 16px;
+
     }
 
   </style>
 
 </head>
 
+
+
 <body>
 
+
   <div class="container">
+
 
     <h1>
       📋 Copiar datos del producto
@@ -205,10 +276,8 @@
 
 
 
-
     <!-- =====================================================
          UNIDAD DE MEDIDA
-         ESTA SECCIÓN SE OCULTARÁ SI ES "UNIDAD"
          ===================================================== -->
 
     <div
@@ -239,6 +308,7 @@
       </button>
 
     </div>
+
 
 
     <!-- =====================================================
@@ -287,14 +357,16 @@
 
     </div>
 
+
   </div>
 
 
 
   <script>
 
+
     // =========================================================
-    // RECIBIR DATOS DE APPSHEET
+    // RECIBIR DATOS DESDE APPSHEET
     // =========================================================
 
     const parametros =
@@ -302,60 +374,104 @@
         window.location.search
       );
 
+
     const descripcion =
       parametros.get("descripcion") || "";
+
 
     const cantidad =
       parametros.get("cantidad") || "";
 
+
     const precio =
       parametros.get("precio") || "";
 
+
     const unidad =
       parametros.get("unidad") || "";
+
 
     const subtotal =
       parametros.get("subtotal") || "";
 
 
+
     // =========================================================
-    // MOSTRAR DATOS
+    // NORMALIZAR UNIDAD
+    // =========================================================
+
+    const unidadLimpia =
+      String(unidad)
+        .trim()
+        .toUpperCase();
+
+
+
+    // =========================================================
+    // MOSTRAR DESCRIPCIÓN
     // =========================================================
 
     document
       .getElementById("descripcion")
       .textContent =
-      descripcion || "Sin descripción";
+      descripcion
+        ? descripcion
+        : "Sin descripción";
 
+
+
+    // =========================================================
+    // MOSTRAR CANTIDAD
+    // =========================================================
 
     document
       .getElementById("cantidad")
       .textContent =
-      cantidad || "Sin cantidad";
+      cantidad
+        ? cantidad
+        : "Sin cantidad";
 
-
-    document
-      .getElementById("unidad")
-      .textContent =
-      unidad || "Sin unidad";
 
 
     // =========================================================
-    // OCULTAR COMPLETAMENTE LA UNIDAD
-    // SI APPSHEET ENVÍA "UNIDAD"
+    // MOSTRAR / OCULTAR UNIDAD
     // =========================================================
 
     const campoUnidad =
-      document.getElementById("campoUnidad");
+      document.getElementById(
+        "campoUnidad"
+      );
+
+
+    /*
+      SI:
+
+      1. unidad está vacía
+      O
+      2. unidad es "UNIDAD"
+
+      ENTONCES OCULTAMOS TODA LA SECCIÓN.
+    */
 
 
     if (
-      unidad.trim().toUpperCase() === "UNIDAD"
+      unidadLimpia === "" ||
+      unidadLimpia === "UNIDAD"
     ) {
 
       campoUnidad.style.display = "none";
 
     }
+
+    else {
+
+      document
+        .getElementById("unidad")
+        .textContent =
+        unidad;
+
+    }
+
 
 
     // =========================================================
@@ -368,6 +484,7 @@
       precio
         ? "S/ " + formatearPrecio(precio)
         : "Sin precio";
+
 
 
     // =========================================================
@@ -384,7 +501,7 @@
 
 
     // =========================================================
-    // FORMATO DE PRECIO
+    // FORMATEAR PRECIO
     // =========================================================
 
     function formatearPrecio(valor) {
@@ -395,9 +512,15 @@
             .replace(",", ".")
         );
 
-      if (isNaN(numero)) {
+
+      if (
+        isNaN(numero)
+      ) {
+
         return valor;
+
       }
+
 
       return numero.toFixed(2);
 
@@ -415,81 +538,104 @@
       nombreDato
     ) {
 
+
       let contenido = "";
 
 
-      // -------------------------------------------------------
-      // BLOQUEAR COPIA DE "UNIDAD"
-      // -------------------------------------------------------
+
+      // =======================================================
+      // DESCRIPCIÓN
+      // =======================================================
 
       if (
-        tipo === "unidad" &&
-        unidad.trim().toUpperCase() === "UNIDAD"
+        tipo === "descripcion"
       ) {
 
-        return;
+        contenido =
+          String(descripcion);
 
       }
 
 
-      // -------------------------------------------------------
-      // DESCRIPCIÓN
-      // -------------------------------------------------------
 
-      if (tipo === "descripcion") {
-
-        contenido = descripcion;
-
-      }
-
-
-      // -------------------------------------------------------
+      // =======================================================
       // CANTIDAD
-      // -------------------------------------------------------
+      // =======================================================
 
-      if (tipo === "cantidad") {
+      if (
+        tipo === "cantidad"
+      ) {
 
-        contenido = cantidad;
+        contenido =
+          String(cantidad);
 
       }
 
 
-      // -------------------------------------------------------
-      // UNIDAD
-      // -------------------------------------------------------
 
-      if (tipo === "unidad") {
+      // =======================================================
+      // UNIDAD
+      // =======================================================
+
+      if (
+        tipo === "unidad"
+      ) {
+
+
+        // No permitir copiar UNIDAD
 
         if (
-          unidad.trim().toUpperCase() === "UNIDAD"
+          unidadLimpia === "UNIDAD"
         ) {
 
           return;
 
         }
 
-        contenido = unidad;
 
-      }
+        // No permitir copiar vacío
 
+        if (
+          unidadLimpia === ""
+        ) {
 
-      // -------------------------------------------------------
-      // PRECIO
-      // -------------------------------------------------------
+          return;
 
-      if (tipo === "precio") {
+        }
+
 
         contenido =
-          formatearPrecio(precio);
+          String(unidad);
 
       }
 
 
-      // -------------------------------------------------------
-      // VALIDAR
-      // -------------------------------------------------------
 
-      if (!contenido.trim()) {
+      // =======================================================
+      // PRECIO
+      // =======================================================
+
+      if (
+        tipo === "precio"
+      ) {
+
+        contenido =
+          String(
+            formatearPrecio(precio)
+          );
+
+      }
+
+
+
+      // =======================================================
+      // VALIDAR CONTENIDO
+      // =======================================================
+
+      if (
+        !contenido ||
+        contenido.trim() === ""
+      ) {
 
         mostrarError(
           "No hay información para copiar."
@@ -500,15 +646,21 @@
       }
 
 
+
+      // =======================================================
+      // OBTENER BOTÓN
+      // =======================================================
+
       const boton =
         document.getElementById(
           botonId
         );
 
 
-      // -------------------------------------------------------
-      // EVITAR SEGUNDA COPIA
-      // -------------------------------------------------------
+
+      // =======================================================
+      // EVITAR COPIAR DOS VECES
+      // =======================================================
 
       if (
         boton.classList.contains(
@@ -521,8 +673,10 @@
       }
 
 
+
       // =======================================================
-      // MÉTODO PRINCIPAL
+      // INTENTO 1
+      // CLIPBOARD API
       // =======================================================
 
       try {
@@ -537,6 +691,7 @@
           nombreDato
         );
 
+
         return;
 
       }
@@ -544,32 +699,47 @@
       catch (error) {
 
         console.log(
-          "Clipboard API:",
+          "Clipboard API no disponible:",
           error
         );
 
       }
 
 
+
       // =======================================================
+      // INTENTO 2
       // MÉTODO ALTERNATIVO
       // =======================================================
 
       try {
+
 
         const textarea =
           document.createElement(
             "textarea"
           );
 
+
         textarea.value =
           contenido;
+
 
         textarea.style.position =
           "fixed";
 
+
+        textarea.style.top =
+          "0";
+
+
         textarea.style.left =
           "-9999px";
+
+
+        textarea.style.opacity =
+          "0";
+
 
         document
           .body
@@ -577,7 +747,9 @@
             textarea
           );
 
+
         textarea.focus();
+
 
         textarea.select();
 
@@ -595,16 +767,21 @@
           );
 
 
-        if (resultado) {
+        if (
+          resultado
+        ) {
+
 
           marcarComoCopiado(
             boton,
             nombreDato
           );
 
+
         }
 
         else {
+
 
           mostrarError(
             "El navegador no permitió copiar " +
@@ -612,17 +789,27 @@
             "."
           );
 
+
         }
+
 
       }
 
       catch (error) {
+
+
+        console.log(
+          "Error al copiar:",
+          error
+        );
+
 
         mostrarError(
           "No se pudo copiar " +
           nombreDato +
           "."
         );
+
 
       }
 
@@ -638,6 +825,7 @@
       boton,
       nombreDato
     ) {
+
 
       boton.textContent =
         "✅ COPIADO";
@@ -676,12 +864,13 @@
 
 
     // =========================================================
-    // ERROR
+    // MOSTRAR ERROR
     // =========================================================
 
     function mostrarError(
       mensaje
     ) {
+
 
       const estado =
         document.getElementById(
@@ -703,7 +892,9 @@
 
     }
 
+
   </script>
+
 
 </body>
 
